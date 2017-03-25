@@ -43,7 +43,7 @@ class Conversation(models.Model):
 
     # otherwise, pass the incoming message to the current stage, and let it decide what to do      
     else:
-      module = getattr(stages, self.stage)
+      module = importlib.import_module("rbot.stages.{0}".format(self.stage))
       current_stage = module.Stage()
       next_stage, preamble = current_stage.respond(self, incoming_message.message)
     

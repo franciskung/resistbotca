@@ -3,7 +3,7 @@ import re
 from ridings.lookup import postal_code_lookup
 
 class Stage:
-  name = b'postal_code'
+  name = 'postal_code'
 
   def get_messages(self, conversation):
     return [u"It's great to meet you, {0}. Next, can you give me your postal code so I can look up your MP?".format(conversation.first_name)]
@@ -22,7 +22,8 @@ class Stage:
       conversation.riding = riding
       conversation.save()
       
-      return (self, u"Your MP is {0}, in {1}".format(riding.representative_name, riding.riding_name))
+      from rbot.stages import contact_method
+      return (contact_method.Stage(), u"Great, I found your MP: {0} ({1})".format(riding.representative_name, riding.riding_name))
 
     # if the lookup failed, prompt them to retry              
     else:
