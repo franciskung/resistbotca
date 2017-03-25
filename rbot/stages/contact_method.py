@@ -13,11 +13,12 @@ class Stage:
     command = message.lower().strip()
 
     # delegate based on action
-    if command in ('phone', 'fax', 'email', 'e-mail'):
+    if 'phone' in command:
       from rbot.stages import phone
       if command == 'phone':
         return (phone.Stage(), None)
 
+    elif 'fax' in command or 'email' in command or 'e-mail' in command:
       """
       from rbot.stages import phone, email, fax
       elif command == 'email' or command == 'e-mail':
@@ -26,7 +27,7 @@ class Stage:
         return (fax.Stage(), None)
       """
 
-      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try phone?".format(command))
+      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try a phone call?".format(command))
 
 
     # error      
