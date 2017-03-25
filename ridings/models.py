@@ -29,6 +29,7 @@ class PostalCode(models.Model):
   lat = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True, db_index=True)
   lng = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True, db_index=True)
 
+  city = models.CharField(max_length=255, blank=True, null=True)
   federal_riding = models.ForeignKey(FederalRiding)
 
   #provincial_riding = models.ForeignKey(ProvincialRiding)

@@ -20,6 +20,7 @@ def postal_code_lookup(postal_code, riding='federal'):
     # set up a new cache object to avoid future OpenNorth calls on this postal code
     pcode_cache = PostalCode()
     pcode_cache.postal_code = postal_code
+    pcode_cache.city = raw_riding['city']
     pcode_cache.lat = raw_riding['centroid']['coordinates'][1]
     pcode_cache.lng = raw_riding['centroid']['coordinates'][0]
     
