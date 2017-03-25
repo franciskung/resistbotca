@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import re
 
 from rbot.models import Conversation, SmsMessage
+from rbot.easter_eggs import EGGS
 
 START_KEYWORDS = ('resist','hello',)
 
@@ -37,8 +38,21 @@ def handle_sms(request):
                        message=request.POST.get('Body'))
   message.save()
     
-  # figure out what to do next
-  answer = conversation.respond(message)
+    
+  # let's have some fun and add some easter eggs ;)
+  # (but only send one message max)
+  egged = False
+  answer = None
+  for keyword, easteregg in EGGS.items():
+    if keyword.lower() in message.message.lower() and not egged:
+      conversation.send_sms(easteregg)
+      egged = True
+      # TODO: we'll probably want a way to disable some of these, ie for the open-text-entry of an email message
+  
+  # or, a more serious next step
+  # (but only if an easter egg hasn't already been sent...)
+  if not egged:
+    answer = conversation.respond(message)
   
   if answer:
     return HttpResponse(str(answer))
