@@ -32,25 +32,34 @@ class Conversation(models.Model):
   contact_method = models.CharField(max_length=15, choices=CONTACT_METHODS, blank=True, null=True)
   
   riding = models.ForeignKey(Riding, blank=True, null=True)
-  topic = models.CharField(max_length=255, blank=True, null=True)
-  message = models.TextField(blank=True, null=True)
   
   mailing_list_subscribed = models.BooleanField(default=False)
   
-  def send_sms(self, msg, response=None):
+  def send_sms(self, msg, response=None, media_url=None):
     if response:
-      response.message(msg)
+      tw = response.message(msg)
+      if media_url:
+        tw.media(media_url)
       sms_id = None
+      
     else:
       client = TwilioRestClient(settings.TWILIO_ACCOUNT, settings.TWILIO_AUTH)
-      sms = client.messages.create(to=self.phone_number,
-                                   from_=settings.TWILIO_NUMBER,
-                                   body=msg)
+      
+      if media_url:
+        sms = client.messages.create(to=self.phone_number,
+                                     from_=settings.TWILIO_NUMBER,
+                                     body=msg,
+                                     media=media_url)
+      else:
+        sms = client.messages.create(to=self.phone_number,
+                                     from_=settings.TWILIO_NUMBER,
+                                     body=msg)
       sms_id = sms.sid
       
     out_msg = SmsMessage(conversation=self,
                          outgoing=True,
                          message=msg,
+                         media_url=media_url,
                          twilio_sid=sms_id)
     out_msg.save()
   
@@ -110,5 +119,6 @@ class SmsMessage(models.Model):
   outgoing = models.BooleanField(default=False, db_index=True)
 
   message = models.TextField(blank=True, null=True)
+  media_url = models.CharField(max_length=255, blank=True, null=True)
 
 

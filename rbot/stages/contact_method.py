@@ -15,10 +15,14 @@ class Stage:
     # delegate based on action
     if 'phone' in command:
       from rbot.stages import phone
-      if command == 'phone':
-        return (phone.Stage(), None)
+      return (phone.Stage(), None)
 
-    elif 'fax' in command or 'email' in command or 'e-mail' in command:
+    elif 'email' in command or 'email' in command:
+      from rbot.stages import email
+      return (email.Stage(), None)
+
+    
+    elif 'fax' in command:
       """
       from rbot.stages import phone, email, fax
       elif command == 'email' or command == 'e-mail':
@@ -27,7 +31,7 @@ class Stage:
         return (fax.Stage(), None)
       """
 
-      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try a phone call?".format(command))
+      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try a phone call or email?".format(command))
 
 
     # error      

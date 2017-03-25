@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'mailer',
+    
     'rbot',
     'ridings',
     'phonecall',
+    'emailfax',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +133,7 @@ SITE_URL = ""
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
+EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 
 # local_settings.py can be used to override environment-specific settings
