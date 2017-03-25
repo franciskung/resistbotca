@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.db import models
 from twilio import twiml
+from twilio.rest import TwilioRestClient
+
 from rbot import stages
 from rbot.stages import RBOT_STARTING_STAGE
 from ridings.models import Riding
@@ -34,6 +37,23 @@ class Conversation(models.Model):
   
   mailing_list_subscribed = models.BooleanField(default=False)
   
+  def send_sms(self, msg, response=None):
+    if response:
+      response.message(msg)
+      sms_id = None
+    else:
+      client = TwilioRestClient(settings.TWILIO_ACCOUNT, settings.TWILIO_AUTH)
+      sms = client.messages.create(to=self.phone_number,
+                                   from_=settings.TWILIO_NUMBER,
+                                   body=msg)
+      sms_id = sms.sid
+      
+    out_msg = SmsMessage(conversation=self,
+                         outgoing=True,
+                         message=msg,
+                         twilio_sid=sms_id)
+    out_msg.save()
+  
   
   def respond(self, incoming_message):
     # if no current stage, it means we have a new conversation...
@@ -52,20 +72,12 @@ class Conversation(models.Model):
     
     # if the last step had a message, send it first
     if preamble:
-      r.message(preamble)
-      out_msg = SmsMessage(conversation=self,
-                           outgoing=True,
-                           message=preamble)
-      out_msg.save()
+      self.send_sms(preamble, r)
       
     # then get (or re-send) any messages from the current step
     if next_stage:
       for m in next_stage.get_messages(self):
-        r.message(m)
-        out_msg = SmsMessage(conversation=self,
-                             outgoing=True,
-                             message=m)
-        out_msg.save()
+        self.send_sms(m, r)
 
       # if the current step has any other actions, perform them as well
       if hasattr(next_stage, "do_action"):
@@ -79,12 +91,7 @@ class Conversation(models.Model):
     # but this shouldn't really happen...?
     else:
       # say goodbye, like a polite Canadian
-      msg = "Thanks, it's been a pleasure helping you. I hope we meet again soon!"
-      r.message(msg)
-      out_msg = SmsMessage(conversation=self,
-                           outgoing=True,
-                           message=msg)
-      out_msg.save()
+      self.send_sms("Thanks, it's been a pleasure helping you. I hope we meet again soon!", r)
         
       # and do some internal clean-up
       self.status = 'c'

@@ -41,14 +41,7 @@ def start_call(conversation):
   except TwilioRestException as e:
     #print e
 
-    msg = "hmm, I wasn't able to call you. Bugs in the system? Sorry about that, please try again later."
-    client.messages.create(to=conversation.phone_number,
-                           from_=settings.TWILIO_NUMBER,
-                           body=msg)
-    out_msg = SmsMessage(conversation=conversation,
-                         outgoing=True,
-                         message=msg)
-    out_msg.save()
+    converastion.send_sms("hmm, I wasn't able to call you. Bugs in the system? Sorry about that, please try again later.")
     
     return False
 
@@ -115,17 +108,7 @@ def twilio_completed2(request):
     phonecall.save()
     
     conversation = phonecall.conversation
-
-    msg = "Thanks for making that call. You're awesome! It's been a pleasure helping you, and I hope we meet again soon."
-    client = TwilioRestClient(settings.TWILIO_ACCOUNT, settings.TWILIO_AUTH)
-    client.messages.create(to=conversation.phone_number,
-                           from_=settings.TWILIO_NUMBER,
-                           body=msg)
-    out_msg = SmsMessage(conversation=conversation,
-                         outgoing=True,
-                         message=msg)
-    out_msg.save()
-    
+    conversation.send_sms("Thanks for making that call. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
     conversation.status = 'c'
     conversation.save()
     
