@@ -1,7 +1,7 @@
 from django.db import models
 from twilio import twiml
 from rbot import stages
-from rbot.stages import RBOT_STAGES, RBOT_STARTING_STAGE
+from rbot.stages import RBOT_STARTING_STAGE
 from ridings.models import Riding
 
 import importlib
@@ -17,7 +17,7 @@ class Conversation(models.Model):
   started = models.DateTimeField(auto_now_add=True)
   
   status = models.CharField(max_length=1, choices=STATUS, default='a', db_index=True)
-  stage = models.CharField(max_length=25, choices=RBOT_STAGES.items(), blank=True, null=True, db_index=True)
+  stage = models.CharField(max_length=25, blank=True, null=True, db_index=True)
   
   raw_name = models.CharField(max_length=255, blank=True, null=True)
   first_name = models.CharField(max_length=255, blank=True, null=True)
@@ -44,7 +44,7 @@ class Conversation(models.Model):
     # otherwise, pass the incoming message to the current stage, and let it decide what to do      
     else:
       module = getattr(stages, self.stage)
-      current_stage = getattr(module, RBOT_STAGES[self.stage])()
+      current_stage = module.Stage()
       next_stage, preamble = current_stage.respond(self, incoming_message.message)
     
     # set up sms response

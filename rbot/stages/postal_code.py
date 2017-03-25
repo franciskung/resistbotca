@@ -2,7 +2,7 @@ import re
 
 from ridings.lookup import postal_code_lookup
 
-class PostalCode:
+class Stage:
   name = b'postal_code'
 
   def get_messages(self, conversation):
@@ -26,6 +26,6 @@ class PostalCode:
 
     # if the lookup failed, prompt them to retry              
     else:
-      from rbot.stages.postal_code_failed import PostalCodeFailed
-      return (PostalCodeFailed(), None)
+      from rbot.stages import postal_code_failed
+      return (postal_code_failed.Stage(), None)
 

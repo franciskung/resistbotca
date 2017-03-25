@@ -3,7 +3,7 @@ import re
 
 from ridings.lookup import postal_code_lookup
 
-class PostalCode:
+class Stage:
   name = 'postal_code'
 
   def get_messages(self, conversation):

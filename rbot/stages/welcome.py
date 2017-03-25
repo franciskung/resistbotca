@@ -1,7 +1,6 @@
 from nameparser import HumanName
-from rbot.stages.postal_code import PostalCode
 
-class Welcome:
+class Stage:
   name = 'welcome'
 
   def get_messages(self, conversation):
@@ -23,5 +22,6 @@ class Welcome:
     conversation.save()
 
     # advance to next stage    
-    return (PostalCode(), None)
+    from rbot.stages import postal_code
+    return (postal_code.Stage(), None)
 

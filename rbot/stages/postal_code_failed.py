@@ -1,9 +1,8 @@
 import re
 
-from rbot.stages.postal_code import PostalCode
 from ridings.lookup import postal_code_lookup
 
-class PostalCodeFailed:
+class Stage:
   name = 'postal_code_failed'
 
   def get_messages(self, conversation):
@@ -24,7 +23,8 @@ class PostalCodeFailed:
       conversation.riding = riding
       conversation.save()
       
-      return (PostalCode(), u"Your MP is {0}, in {1}".format(riding.representative_name, riding.riding_name))
+      from rbot.stages import postal_code
+      return (postal_code.Stage(), u"Your MP is {0}, in {1}".format(riding.representative_name, riding.riding_name))
               
     # if the lookup failed, retry this stage
     else:
