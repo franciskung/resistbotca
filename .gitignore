@@ -1,0 +1,19 @@
+# Development database
+db.sqlite3
+
+# Local settings
+local_settings.py
+scripts/gunicorn.pid
+logs
+
+# Temp files
+*.*~
+*~
+.*.swp
+
+# Compiled python
+*.pyc
+
+# virtualenv
+python/
+
