@@ -1,0 +1,8 @@
+Django==1.10.6
+MySQL-python==1.2.5
+gunicorn==19.7.1
+httplib2==0.10.3
+pytz==2016.10
+six==1.10.0
+twilio==5.7.0
+wsgiref==0.1.2
