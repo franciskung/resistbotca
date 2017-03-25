@@ -1,5 +1,3 @@
-import re
-
 class Stage:
   name = 'contact_method'
   error = False
@@ -16,17 +14,20 @@ class Stage:
 
     # delegate based on action
     if command in ('phone', 'fax', 'email', 'e-mail'):
-      return (self, u"You're pretty awesome yourself. And while I wish I could {0}, I haven't learned that yet.".format(command))
+      from rbot.stages import phone
+      if command == 'phone':
+        return (phone.Stage(), None)
 
       """
       from rbot.stages import phone, email, fax
-      if command == 'phone':
-        return (phone.Stage(), None)
       elif command == 'email' or command == 'e-mail':
         return (email.Stage(), None)
       elif command == 'fax':
         return (fax.Stage(), None)
       """
+
+      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try phone?".format(command))
+
 
     # error      
     self.error = True

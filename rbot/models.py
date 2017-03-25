@@ -59,16 +59,36 @@ class Conversation(models.Model):
       out_msg.save()
       
     # then get (or re-send) any messages from the current step
-    for m in next_stage.get_messages(self):
-      r.message(m)
+    if next_stage:
+      for m in next_stage.get_messages(self):
+        r.message(m)
+        out_msg = SmsMessage(conversation=self,
+                             outgoing=True,
+                             message=m)
+        out_msg.save()
+
+      # if the current step has any other actions, perform them as well
+      if hasattr(next_stage, "do_action"):
+        next_stage.do_action(self, r)
+
+      # update the stage
+      self.stage = next_stage.name
+      self.save()
+    
+    # if next step is null, it means we've reached the end of our journey.
+    # but this shouldn't really happen...?
+    else:
+      # say goodbye, like a polite Canadian
+      msg = "Thanks, it's been a pleasure helping you. I hope we meet again soon!"
+      r.message(msg)
       out_msg = SmsMessage(conversation=self,
                            outgoing=True,
-                           message=m)
+                           message=msg)
       out_msg.save()
-
-    # update the stage
-    self.stage = next_stage.name
-    self.save()
+        
+      # and do some internal clean-up
+      self.status = 'c'
+      self.save()
     
     # return the TwiML result
     return r

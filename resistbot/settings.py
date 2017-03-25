@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'rbot',
     'ridings',
+    'phonecall',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,7 @@ TWILIO_ACCOUNT = None
 TWILIO_AUTH = None
 TWILIO_NUMBER = None
 
+SITE_URL = ""
 
 
 # Static files (CSS, JavaScript, Images)

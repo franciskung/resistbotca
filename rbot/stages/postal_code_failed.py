@@ -6,7 +6,7 @@ class Stage:
   name = 'postal_code_failed'
 
   def get_messages(self, conversation):
-    return ["hmm, I wasn't able to find that postal code. Can you try again?"]
+    return ["hmm, I wasn't able to find that postal code. Can you double-check that and try again?"]
   
   def respond(self, conversation, message):
     # clean up postal code

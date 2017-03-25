@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
   url(r'^rbot/', include('rbot.urls')),
+  url(r'^phoning/', include('phonecall.urls')),
   url(r'^admin/', admin.site.urls),
 ]
