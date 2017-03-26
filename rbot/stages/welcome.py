@@ -9,6 +9,8 @@ class Stage:
   def respond(self, conversation, message):
     # parse name
     name = HumanName(message)
+    name.capitalize(force=True)
+    
     if name.middle:
       first_name = "{0} {1}".format(name.first, name.middle)
     else:
