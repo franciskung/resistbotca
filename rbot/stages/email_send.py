@@ -17,14 +17,14 @@ class Stage:
       send_mail(msg.topic,
                 msg.build_body(),
                 u"\"{0}\" {1}".format(conversation.raw_name, conversation.email),
-                #[conversation.riding.representative_email,],
-                ["francis@franciskung.com"],
+                [conversation.riding.representative_email,],
+                #["francis@franciskung.com"],
                 fail_silently=False)
 
     # and cleanup
-    conversation.send_sms("Thanks for sending that email. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
-    #conversation.status = 'c'
-    #conversation.save()
+    conversation.send_sms("Thanks for emailing your MP. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
+    conversation.status = 'c'
+    conversation.save()
   
   def respond(self, conversation, message):
     # we are done. nothing left.

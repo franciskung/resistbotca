@@ -108,7 +108,7 @@ def twilio_completed2(request):
     phonecall.save()
     
     conversation = phonecall.conversation
-    conversation.send_sms("Thanks for making that call. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
+    conversation.send_sms("Thanks for calling your MP. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
     conversation.status = 'c'
     conversation.save()
     
