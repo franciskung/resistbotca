@@ -4,7 +4,7 @@ class Stage:
 
   def get_messages(self, conversation):
     if not self.error:
-      return ["Now, how would you like to contact them? Phone, email, or fax?"]
+      return [u"Now, how would you like to contact your MP, {0}? Phone, email, or fax?".format(conversation.riding.representative_name)]
     else:
       return []
   
@@ -17,9 +17,13 @@ class Stage:
       from rbot.stages import phone
       return (phone.Stage(), None)
 
-    elif 'email' in command or 'email' in command:
-      from rbot.stages import email
-      return (email.Stage(), None)
+    elif 'email' in command or 'e-mail' in command:
+      if conversation.email:
+        from rbot.stages import email_topic
+        return (email_topic.Stage(), None)
+      else:
+        from rbot.stages import email
+        return (email.Stage(), None)
 
     
     elif 'fax' in command:

@@ -4,7 +4,7 @@ from twilio import twiml
 from twilio.rest import TwilioRestClient
 
 from rbot import stages
-from rbot.stages import RBOT_STARTING_STAGE
+from rbot.stages import RBOT_STARTING_STAGE, RBOT_RETURNING_STAGE
 from ridings.models import Riding
 
 import importlib
@@ -75,7 +75,13 @@ class Conversation(models.Model):
   def respond(self, incoming_message):
     # if no current stage, it means we have a new conversation...
     if not self.stage:
-      next_stage = RBOT_STARTING_STAGE()
+      past_conversation = Conversation.objects.filter(phone_number=self.phone_number).exclude(id=self.id).first()
+      
+      if past_conversation:
+        next_stage = RBOT_RETURNING_STAGE()
+      else:
+        next_stage = RBOT_STARTING_STAGE()
+
       preamble = None
 
     # otherwise, pass the incoming message to the current stage, and let it decide what to do      
