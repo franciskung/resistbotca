@@ -25,7 +25,13 @@ class Stage:
   def respond(self, conversation, message):
     message = message.lower()
     if 'yes' in message or 'yep' in message or 'yeah' in message or 'right' in message:
-      # advance to next stage    
+
+      if not conversation.riding:      
+        # advance to next stage    
+        from rbot.stages import postal_code
+        return (postal_code.Stage(), None)
+
+      # advance to next stage
       from rbot.stages import contact_method
       stage = contact_method.Stage()
       stage.returning =True
