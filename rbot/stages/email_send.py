@@ -46,8 +46,8 @@ class Stage:
   
   def respond(self, conversation, message):
     # we are done. nothing left.
-    #return (None, None)
+    return (None, None)
     
-    from rbot.stages import email_preview
-    return (email_preview.Stage(), None)
-    
+    #from rbot.stages import email_preview
+    #return (email_preview.Stage(), None)
+
