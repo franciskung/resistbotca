@@ -16,7 +16,7 @@ class Stage:
     if msg:
       send_mail(msg.topic,
                 msg.build_body(),
-                u"\"{0}\" {1}".format(conversation.raw_name, conversation.email),
+                u"\"{0}\" <{1}>".format(conversation.raw_name, conversation.email),
                 [conversation.riding.representative_email,],
                 #["francis@franciskung.com"],
                 fail_silently=False)
