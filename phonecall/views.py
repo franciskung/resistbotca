@@ -62,9 +62,11 @@ def twilio(request):
     answer.say(u"Hello, {0}. It's your friendly bot here. I'm now connecting you to {1}'s office. Please hold on.".format(conversation.first_name, conversation.riding.representative_name))
     answer.pause(length=1)
 
-    #print "I'm a chicken and not really calling {0}".format(phonecall.to_number)
-    #answer.dial("4168335570",
-    answer.dial(phonecall.to_number,
+    if settings.TESTING_PHONE:
+      to = settings.TESTING_PHONE
+    else:
+      to = phonecall.to_number
+    answer.dial(to,
                 action="{0}{1}".format(settings.SITE_URL, reverse('phone_twilio_completed')),
                 callerId=phonecall.from_number,
                 ringTone='us')

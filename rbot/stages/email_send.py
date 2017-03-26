@@ -14,11 +14,15 @@ class Stage:
     msg = WrittenMessage.objects.filter(conversation=conversation).first()
     
     if msg:
+      if settings.TESTING_EMAIL:
+        to = settings.TESTING_EMAIL
+      else:
+        to = conversation.riding.representative_email
+    
       send_mail(msg.topic,
                 msg.build_body(),
                 u"\"{0}\" <{1}>".format(conversation.raw_name, conversation.email),
-                [conversation.riding.representative_email,],
-                #["francis@franciskung.com"],
+                [to,],
                 fail_silently=False)
 
     # and cleanup

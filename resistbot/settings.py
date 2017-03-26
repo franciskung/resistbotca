@@ -134,6 +134,8 @@ SITE_URL = ""
 
 STATIC_URL = '/static/'
 EMAIL_BACKEND = "mailer.backend.DbBackend"
+TESTING_PHONE = None
+TESTING_EMAIL = None
 
 
 # local_settings.py can be used to override environment-specific settings
