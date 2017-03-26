@@ -5,7 +5,7 @@ class Stage:
   no_easter_eggs = True
 
   def get_messages(self, conversation):
-    return ["Great, I'll use that as a subject line. And now please write your message (I'll add your name at the bottom for you)"]
+    return [u"Great, I'll use that as a subject line. And what do you want to say to {0}? (I'll add your name at the end of the message, too)".format(conversation.riding.representative_name)]
   
   def respond(self, conversation, message):
     msg, created = WrittenMessage.objects.get_or_create(conversation=conversation)

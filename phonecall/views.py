@@ -59,7 +59,7 @@ def twilio(request):
     phonecall.save()
 
     answer.pause(length=2)
-    answer.say(u"Hello, {0}. It's your friendly bot here. I'm now connecting you to {1}'s office. Please hold on.".format(conversation.first_name, conversation.riding.representative_name))
+    answer.say(u"Hello, {0}. I'm here to help you call your MP. I'll connect you to {1}'s office now. Please hold on.".format(conversation.first_name, conversation.riding.representative_name))
     answer.pause(length=1)
 
     if settings.TESTING_PHONE:
