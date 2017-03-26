@@ -14,10 +14,16 @@ class Stage:
 
     # delegate based on action
     if 'phone' in command:
+      conversation.contact_method = 'phone'
+      conversation.save()
+      
       from rbot.stages import phone
       return (phone.Stage(), None)
 
     elif 'email' in command or 'e-mail' in command:
+      conversation.contact_method = 'email'
+      conversation.save()
+      
       if conversation.email:
         from rbot.stages import email_topic
         return (email_topic.Stage(), None)
@@ -28,18 +34,17 @@ class Stage:
     
     elif 'fax' in command:
       """
-      from rbot.stages import phone, email, fax
-      elif command == 'email' or command == 'e-mail':
-        return (email.Stage(), None)
-      elif command == 'fax':
-        return (fax.Stage(), None)
+      conversation.contact_method = 'phone'
+      conversation.save()
+      
+      from rbot.stages import fax
+      return (fax.Stage(), None)
       """
-
-      return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try a phone call or email?".format(command))
+      pass
 
 
     # error      
     self.error = True
-    return (self, "Sorry, I didn't understand that. Can you reply with phone, email, or fax?")
+    return (self, u"I wish I could help you {0}, but I haven't learned that yet. Try a phone call or email?".format(command))
       
 
