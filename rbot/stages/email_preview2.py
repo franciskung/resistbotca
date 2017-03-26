@@ -4,18 +4,20 @@ from emailfax.models import WrittenMessage
 
 class Stage:
   name = 'email_preview2'
+  error = False
 
   def get_messages(self, conversation):
     return []
 
   def do_action(self, conversation, response):
-    msg = WrittenMessage.objects.filter(conversation=conversation).first()
-    
-    if msg:
-      msg.generate_png()
-      conversation.send_sms("Here's a preview of your email. What do you think? Respond with SEND to send it, or EDIT to re-do it.",
-                            response,
-                            media_url="{0}{1}".format(settings.SITE_URL, reverse('emailfax_mms', kwargs={'message_id': msg.id})),)
+    if not self.error:
+      msg = WrittenMessage.objects.filter(conversation=conversation).first()
+      
+      if msg:
+        msg.generate_png()
+        conversation.send_sms("Here's a preview of your email. What do you think? Respond with SEND to send it, or EDIT to re-do it.",
+                              response,
+                              media_url="{0}{1}".format(settings.SITE_URL, reverse('emailfax_mms', kwargs={'message_id': msg.id})),)
     
   
   def respond(self, conversation, message):

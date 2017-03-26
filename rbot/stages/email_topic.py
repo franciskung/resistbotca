@@ -2,6 +2,7 @@ from emailfax.models import WrittenMessage
 
 class Stage:
   name = 'email_topic'
+  no_easter_eggs = True
 
   def get_messages(self, conversation):
     return ["Thanks. And what are you emailing {0} about?".format(conversation.riding.representative_name)]

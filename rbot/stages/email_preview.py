@@ -2,9 +2,13 @@ from emailfax.models import WrittenMessage
 
 class Stage:
   name = 'email_preview'
+  error = False
 
   def get_messages(self, conversation):
-    return ["This is looking fantastic - we're nearly there. Reply with PREVIEW to preview your message, or SEND to send it now!"]
+    if not self.error:
+      return ["This is looking fantastic - we're nearly there. Reply with PREVIEW to preview your message, or SEND to send it now!"]
+    else:
+      return []
   
   def respond(self, conversation, message):
     message = message.lower()

@@ -2,6 +2,7 @@ from emailfax.models import WrittenMessage
 
 class Stage:
   name = 'email_body'
+  no_easter_eggs = True
 
   def get_messages(self, conversation):
     return ["Great, I'll use that as a subject line. And now please write your message (I'll add your name at the bottom for you)"]

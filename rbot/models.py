@@ -62,6 +62,14 @@ class Conversation(models.Model):
                          media_url=media_url,
                          twilio_sid=sms_id)
     out_msg.save()
+    
+
+  def get_current_stage(self):
+    if not self.stage:
+      return RBOT_STARTING_STAGE()
+
+    module = importlib.import_module("rbot.stages.{0}".format(self.stage))
+    return module.Stage()
   
   
   def respond(self, incoming_message):
@@ -72,8 +80,7 @@ class Conversation(models.Model):
 
     # otherwise, pass the incoming message to the current stage, and let it decide what to do      
     else:
-      module = importlib.import_module("rbot.stages.{0}".format(self.stage))
-      current_stage = module.Stage()
+      current_stage = self.get_current_stage()
       next_stage, preamble = current_stage.respond(self, incoming_message.message)
     
     # set up sms response
@@ -108,6 +115,7 @@ class Conversation(models.Model):
     
     # return the TwiML result
     return r
+    
 
   
 class SmsMessage(models.Model):

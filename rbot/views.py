@@ -43,11 +43,14 @@ def handle_sms(request):
   # (but only send one message max)
   egged = False
   answer = None
-  for keyword, easteregg in EGGS.items():
-    if keyword.lower() in message.message.lower() and not egged:
-      conversation.send_sms(easteregg)
-      egged = True
-      # TODO: we'll probably want a way to disable some of these, ie for the open-text-entry of an email message
+  
+  stage = conversation.get_current_stage()
+  if not hasattr(stage, 'no_easter_eggs') or stage.no_easter_eggs == False:
+    for keyword, easteregg in EGGS.items():
+      if keyword.lower() in message.message.lower() and not egged:
+        conversation.send_sms(easteregg)
+        egged = True
+        # TODO: we'll probably want a way to disable some of these, ie for the open-text-entry of an email message
   
   # or, a more serious next step
   # (but only if an easter egg hasn't already been sent...)
