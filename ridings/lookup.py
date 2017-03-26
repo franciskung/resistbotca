@@ -1,7 +1,7 @@
 import requests
 from ridings.models import PostalCode, FederalRiding
 
-def postal_code_lookup(postal_code, riding='federal'):
+def postal_code_lookup(postal_code, riding_type='federal'):
 
   # attempt to see if we already have this postal code cached
   pcode_cache = PostalCode.objects.filter(postal_code=postal_code).first()
@@ -66,7 +66,7 @@ def postal_code_lookup(postal_code, riding='federal'):
   if not pcode_cache:
     return None
     
-  if riding == 'federal':
+  if riding_type == 'federal':
     return pcode_cache.federal_riding
     
   return None
