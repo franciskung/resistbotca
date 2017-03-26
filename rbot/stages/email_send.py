@@ -14,19 +14,33 @@ class Stage:
     msg = WrittenMessage.objects.filter(conversation=conversation).first()
     
     if msg:
-      if settings.TESTING_EMAIL:
-        to = settings.TESTING_EMAIL
-      else:
-        to = conversation.riding.representative_email
-    
-      send_mail(msg.topic,
-                msg.build_body(),
-                u"\"{0}\" <{1}>".format(conversation.raw_name, conversation.email),
-                [to,],
-                fail_silently=False)
+      if conversation.contact_method == 'fax':
+      
+        if settings.TESTING_FAX:
+          to = settings.TESTING_FAX
+        else:
+          to = conversation.riding.representative_fax
+      
+        send_mail(msg.topic,
+                  msg.build_body(),
+                  u"\"{0}\" <{1}>".format(conversation.raw_name, settings.FAX_FROM_EMAIL),
+                  [u"\"{0}\" <{1}@srfax.com>".format(conversation.riding.representative_name, to),],
+                  fail_silently=False)
+
+      else:    
+        if settings.TESTING_EMAIL:
+          to = settings.TESTING_EMAIL
+        else:
+          to = conversation.riding.representative_email
+      
+        send_mail(msg.topic,
+                  msg.build_body(),
+                  u"\"{0}\" <{1}>".format(conversation.raw_name, conversation.email),
+                  [to,],
+                  fail_silently=False)
 
     # and cleanup
-    conversation.send_sms("Thanks for emailing your MP. You're awesome! It's been a pleasure helping you, and I hope we meet again soon.")
+    conversation.send_sms("... and done. That was easy! It's been a pleasure helping you (you're awesome, by the way), and I hope we meet again soon.")
     conversation.status = 'c'
     conversation.save()
   

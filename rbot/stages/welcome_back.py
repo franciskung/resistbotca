@@ -27,7 +27,9 @@ class Stage:
     if 'yes' in message or 'yep' in message or 'yeah' in message or 'right' in message:
       # advance to next stage    
       from rbot.stages import contact_method
-      return (contact_method.Stage(), None)
+      stage = contact_method.Stage()
+      stage.returning =True
+      return (stage, None)
       
     else:
       # clear saved contact info

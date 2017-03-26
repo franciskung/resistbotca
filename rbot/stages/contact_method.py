@@ -1,10 +1,14 @@
 class Stage:
   name = 'contact_method'
   error = False
+  returning = False
 
   def get_messages(self, conversation):
     if not self.error:
-      return [u"Now, how would you like to contact your MP, {0}? Phone, email, or fax?".format(conversation.riding.representative_name)]
+      if not self.returning:
+        return [u"Now, how would you like to contact your MP, {0}? Phone, email, or fax?".format(conversation.riding.representative_name)]
+      else:
+        return [u"It's great to see you again! How would you like to contact your MP, {0}? Phone, email, or fax?".format(conversation.riding.representative_name)]
     else:
       return []
   
@@ -33,14 +37,13 @@ class Stage:
 
     
     elif 'fax' in command:
-      """
-      conversation.contact_method = 'phone'
+      conversation.contact_method = 'fax'
       conversation.save()
       
-      from rbot.stages import fax
-      return (fax.Stage(), None)
-      """
-      pass
+      #from rbot.stages import fax
+      #return (fax.Stage(), None)
+      from rbot.stages import email_topic
+      return (email_topic.Stage(), None)
 
 
     # error      
