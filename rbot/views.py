@@ -8,7 +8,8 @@ import re
 from rbot.models import Conversation, SmsMessage
 from rbot.easter_eggs import EGGS
 
-START_KEYWORDS = ('resist','hello',)
+START_KEYWORDS = ('resist','hello','start','reset','cancel','restart','re-start')
+HELP_KEYWORDS = ('help','confused',"don't understand")
 
 
 @csrf_exempt
@@ -38,19 +39,26 @@ def handle_sms(request):
                        message=request.POST.get('Body'))
   message.save()
     
-    
+
+  # have some over-riding help messages, plus    
   # let's have some fun and add some easter eggs ;)
   # (but only send one message max)
   egged = False
   answer = None
   
   stage = conversation.get_current_stage()
+
   if not hasattr(stage, 'no_easter_eggs') or stage.no_easter_eggs == False:
+    for keyword in HELP_KEYWORDS:
+      if keyword.lower() in message.message.lower() and not egged:
+        conversation.send_sms("I'm a simple bot that helps you get in touch with your Member of Parliament. I get confused easily, though, so you can always restart by texting me HELLO")
+        egged = True
+
     for keyword, easteregg in EGGS.items():
       if keyword.lower() in message.message.lower() and not egged:
         conversation.send_sms(easteregg)
         egged = True
-        # TODO: we'll probably want a way to disable some of these, ie for the open-text-entry of an email message
+
   
   # or, a more serious next step
   # (but only if an easter egg hasn't already been sent...)
