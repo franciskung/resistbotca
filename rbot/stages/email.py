@@ -13,6 +13,6 @@ class Stage:
     conversation.save()
 
     # advance to next stage    
-    from rbot.stages import email_topic
-    return (email_topic.Stage(), None)
+    from rbot.stages import email_body
+    return (email_body.Stage(), None)
 

@@ -21,7 +21,7 @@ class Stage:
         else:
           to = conversation.riding.representative_fax
       
-        send_mail(msg.topic,
+        send_mail(conversation.topic,
                   msg.build_body(),
                   u"\"{0}\" <{1}>".format(conversation.get_name(), settings.FAX_FROM_EMAIL),
                   [u"\"{0}\" <{1}@srfax.com>".format(conversation.riding.representative_name, to),],
@@ -33,7 +33,7 @@ class Stage:
         else:
           to = conversation.riding.representative_email
       
-        send_mail(msg.topic,
+        send_mail(conversation.topic,
                   msg.build_body(),
                   u"\"{0}\" <{1}>".format(conversation.get_name(), conversation.email),
                   [to,],

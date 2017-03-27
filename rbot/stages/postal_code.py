@@ -22,8 +22,8 @@ class Stage:
       conversation.riding = riding
       conversation.save()
       
-      from rbot.stages import contact_method
-      return (contact_method.Stage(), u"Great, I found your MP: {0} ({1})".format(riding.representative_name, riding.riding_name))
+      from rbot.stages import contact_topic
+      return (contact_topic.Stage(), u"Great, I found your MP: {0} ({1})".format(riding.representative_name, riding.riding_name))
 
     # if the lookup failed, prompt them to retry              
     else:

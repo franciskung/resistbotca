@@ -13,18 +13,19 @@ class WrittenMessage(models.Model):
   conversation = models.ForeignKey(Conversation)
   sent = models.DateTimeField(blank=True, null=True)
   
-  topic = models.CharField(max_length=255, blank=True, null=True)
   message = models.TextField(blank=True, null=True)
 
   png = models.BinaryField(blank=True, null=True)
-  
+
+  # topic is DEPRECATED! only kept for backwards-compatibilty; now using Conversation.topic
+  topic = models.CharField(max_length=255, blank=True, null=True)
   
   def build_body(self):
     pcode = PostalCode.objects.filter(postal_code=self.conversation.postal_code).first()
     
     body = u"""Dear {0},
 
-I am a constituent in your riding of {1}, and I am writing to you today about {2}.
+I live in your riding of {1}, and I am writing to you today about {2}.
 
 {3}
 
@@ -36,7 +37,7 @@ Thank you for your attention.
 {8}
 """.format(self.conversation.riding.representative_name,
            self.conversation.riding.riding_name,
-           self.topic,
+           self.conversation.topic,
            self.message,
            self.conversation.get_name(),
            self.conversation.postal_code,

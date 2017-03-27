@@ -4,7 +4,7 @@ class Stage:
   name = 'welcome'
 
   def get_messages(self, conversation):
-    return ["Hi! I'm the Canadian ResistBot, and I'm here to help you contact your Member of Parliament. It's great to meet you. What's your name?"]
+    return ["Hi! I hear you want to contact your Member of Parliament. I can help with that. It's great to meet you - what's your name?"]
   
   def respond(self, conversation, message):
     # parse name

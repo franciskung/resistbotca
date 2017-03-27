@@ -7,7 +7,7 @@ class Stage:
   error = False
 
   def get_messages(self, conversation):
-    return []
+    return ["OK, I'll get a preview ready. It might take a moment, thanks for your patience."]
 
   def do_action(self, conversation, response):
     if not self.error:
@@ -29,8 +29,8 @@ class Stage:
       
     elif "edit" in message:
       # advance to next stage    
-      from rbot.stages import email_topic
-      return (email_topic.Stage(), None)
+      from rbot.stages import contact_topic
+      return (contact_topic.Stage(), None)
 
     else:
       # error      

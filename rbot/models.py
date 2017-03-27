@@ -30,6 +30,7 @@ class Conversation(models.Model):
   
   representative = models.CharField(max_length=3, choices=REP_TYPES, blank=True, null=True)
   contact_method = models.CharField(max_length=15, choices=CONTACT_METHODS, blank=True, null=True)
+  topic = models.CharField(max_length=255, blank=True, null=True)
   
   riding = models.ForeignKey(Riding, blank=True, null=True)
   

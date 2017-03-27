@@ -19,7 +19,7 @@ class Stage:
     conversation.representative = past_conversation.representative
     conversation.save()
     
-    return [u"I'm the Canadian ResistBot .... and hey, I remember you! Welcome back! You're {0}, right?".format(past_conversation.get_name())]
+    return [u"Hi ... I remember you! Welcome back! You're {0}, right?".format(past_conversation.get_name())]
 
   
   def respond(self, conversation, message):
@@ -32,8 +32,8 @@ class Stage:
         return (postal_code.Stage(), None)
 
       # advance to next stage
-      from rbot.stages import contact_method
-      stage = contact_method.Stage()
+      from rbot.stages import contact_topic
+      stage = contact_topic.Stage()
       stage.returning =True
       return (stage, None)
       
