@@ -15,7 +15,7 @@ class Stage:
       
       if msg:
         msg.generate_png()
-        conversation.send_sms("Here's a preview of your email. What do you think? Respond with SEND to send it, or EDIT to re-do it.",
+        conversation.send_sms("Here's a preview of your message. What do you think? Respond with SEND to send it, or EDIT to re-do it.",
                               response,
                               media_url="{0}{1}".format(settings.SITE_URL, reverse('emailfax_mms', kwargs={'message_id': msg.id})),)
     

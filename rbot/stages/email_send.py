@@ -23,7 +23,7 @@ class Stage:
       
         send_mail(msg.topic,
                   msg.build_body(),
-                  u"\"{0}\" <{1}>".format(conversation.raw_name, settings.FAX_FROM_EMAIL),
+                  u"\"{0}\" <{1}>".format(conversation.get_name(), settings.FAX_FROM_EMAIL),
                   [u"\"{0}\" <{1}@srfax.com>".format(conversation.riding.representative_name, to),],
                   fail_silently=False)
 
@@ -35,7 +35,7 @@ class Stage:
       
         send_mail(msg.topic,
                   msg.build_body(),
-                  u"\"{0}\" <{1}>".format(conversation.raw_name, conversation.email),
+                  u"\"{0}\" <{1}>".format(conversation.get_name(), conversation.email),
                   [to,],
                   fail_silently=False)
 

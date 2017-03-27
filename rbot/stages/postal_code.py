@@ -6,7 +6,7 @@ class Stage:
   name = 'postal_code'
 
   def get_messages(self, conversation):
-    return [u"It's great to meet you, {0}. Next, can you give me your postal code so I can look up your MP?".format(conversation.first_name)]
+    return [u"Hi, {0}. Can you also tell me your postal code so I can find your MP?".format(conversation.first_name)]
   
   def respond(self, conversation, message):
     # clean up postal code

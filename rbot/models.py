@@ -35,6 +35,16 @@ class Conversation(models.Model):
   
   mailing_list_subscribed = models.BooleanField(default=False)
   
+  def get_name(self):
+    if self.first_name and self.last_name:
+      return self.first_name + u" " + self.last_name
+    elif self.first_name:
+      return self.first_name
+    elif self.last_name:
+      return self.last_name
+    else
+      return u""
+  
   def send_sms(self, msg, response=None, media_url=None):
     if response:
       tw = response.message(msg)

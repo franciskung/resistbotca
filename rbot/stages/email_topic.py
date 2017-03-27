@@ -5,7 +5,7 @@ class Stage:
   no_easter_eggs = True
 
   def get_messages(self, conversation):
-    return ["Thanks. And what topic are you writing {0} about?".format(conversation.riding.representative_name)]
+    return ["OK. And what topic are you writing to {0} about?".format(conversation.riding.representative_name)]
   
   def respond(self, conversation, message):
     msg, created = WrittenMessage.objects.get_or_create(conversation=conversation)

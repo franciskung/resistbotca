@@ -38,7 +38,7 @@ Thank you for your attention.
            self.conversation.riding.riding_name,
            self.topic,
            self.message,
-           self.conversation.raw_name,
+           self.conversation.get_name(),
            self.conversation.postal_code,
            pcode.city if pcode else "",
            self.conversation.riding.province,
