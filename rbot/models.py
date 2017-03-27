@@ -42,7 +42,7 @@ class Conversation(models.Model):
       return self.first_name
     elif self.last_name:
       return self.last_name
-    else
+    else:
       return u""
   
   def send_sms(self, msg, response=None, media_url=None):
