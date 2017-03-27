@@ -1,4 +1,4 @@
-cd ~/resistbot
+cd ~/resistbotca
 source ../python/bin/activate
 #export PYTHONUNBUFFERED=1
 #kill $(ps -x | grep thesource\.wsgi| awk '{print $1}') ; nohup gunicorn -w 2 thesource.wsgi -R --env PYTHONUNBUFFERED=1 -b 127.0.0.1:8001 >> scripts/nohup.out &
