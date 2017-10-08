@@ -5,6 +5,7 @@ your local Member of Parliament.
 Currently, it supports phoning, faxing, and emailing your representative.
 
 
+
 ## Requirements
 ResistbotCA uses Twilio for SMS and phoning functions, SRfax for faxing, and any arbitrary SMTP server
 for emails. It should be fairly easy to replace those with your service of choice if you'd like.
@@ -17,6 +18,7 @@ It's written in Django.
 You could also update the project to use Twilio for faxes -- we built this before Twilio supported fax,
 but it'd be a good thing to consolidate (and get rid of the srfax account). Do this, send me
 a pull request, and I'll buy you a beer. =)
+
 
 
 ## Installation
@@ -59,6 +61,7 @@ to the email address in your SRfax account.
 (bonus TODO: rewrite a fax module that uses Twilio's new faxing features!)
 
 
+
 ## Customizing the bot's responses and conversations
 Unfortunately, the conversations are currently hardcoded, so you'll need to edit the code
 if you want to change how the bot behaves or what it says.
@@ -76,10 +79,12 @@ and help keywords during this stage).
 
 Each Stage object must also define two methods:
 * get_messages(self, conversation)
+
   This is called once a user lands on this stage. It should return a list of strings, each string
   being a message that is sent to the user.
 
 * respond(self, conversation, message)
+
   If/when the user responds to the messages in _get\_messages()_, this is called. The _messsages_
   parameter contains the user's response.
   
@@ -91,6 +96,7 @@ Each Stage object must also define two methods:
   
 There is one additional optional method:
 * do_action(self, conversation, response)
+
   This code is executed right after _get\_messages()_, before waiting for a response.
   The return is ignored.
   
@@ -137,9 +143,9 @@ to recognize it!
 ## Testing
 There are some settings variables to put the project in testing mode.  In particular:
 
-TESTING_PHONE: if set, all phone calls will go to this number instead of the MP's number
-TESTING_EMAIL: if set, all emails will go to this address instead of the MP's email
-TESTING_FAX: if set, all faxes will go to this number instead of the MP's fax
+* TESTING_PHONE: if set, all phone calls will go to this number instead of the MP's number
+* TESTING_EMAIL: if set, all emails will go to this address instead of the MP's email
+* TESTING_FAX: if set, all faxes will go to this number instead of the MP's fax
 
 
 ## License
